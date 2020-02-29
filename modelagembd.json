@@ -1,0 +1,26 @@
+{
+    user: {
+        name: string,
+        bio: string,
+        url_img: string
+    },
+    recipe: {
+        name: string,
+        how_to_do: string,
+        amount: number,
+        url_img: string,
+        url_video: string,
+        user: fk,
+        likes: [
+            user: fk
+        ],
+        comment: [{
+            comment: string,
+            user: fk
+        }],
+        ingredient: [
+            name: string,
+            quantity: string
+        ]
+    }
+}

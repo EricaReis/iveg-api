@@ -1,3 +1,6 @@
-import app from './app';
+const app = require('./app');
 
-app.listen(process.env.PORT || 3000);
+app.app.listen(process.env.PORT || 3000, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Server up port: ${process.env.PORT || 3000}`);
+});

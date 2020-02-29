@@ -1,7 +1,5 @@
-import { Router } from 'express';
+const routes = require('express').Router();
 
-const routes = new Router();
+routes.get('/ping', (req, res) => res.send('pong'));
 
-routes.get('/ping', (req, res) => res.send("pong"));
-
-export default routes;
+module.exports = routes;
