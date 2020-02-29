@@ -8,8 +8,13 @@ const schema = mongoose.Schema({
     bio: {
         type: String
     },
-    url_img:{
+    url_img: {
         type: String
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
     }
 })
 
