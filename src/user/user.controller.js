@@ -35,6 +35,73 @@ const userController = {
         .then(response => resolve(createResponse(200, response)))
         .catch(error => reject(createResponse(500, error)))
     })
+  },
+  findOne(id) {
+    return new Promise(async (resolve, reject) => {
+      const schema = Joi.object({
+        id: Joi.string().required()
+      });
+
+      const { error } = schema.validate({ id });
+      if (error) return reject(createReponse(400, error));
+      userActions.findOne(id)
+        .then(user => resolve(createResponse(200, user)))
+        .catch(error => reject(createResponse(400, error)))
+    })
+  },
+  editUser(req) {
+    return new Promise(async (resolve, reject) => {
+      const schema = Joi.object({
+        id: Joi.string().required(),
+        name: Joi.string(),
+        bio: Joi.string(),
+        url_img: Joi.string(),
+        email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+      });
+
+      const { error } = schema.validate({ ...req.params, ...req.body });
+      if (error) return reject(createResponse(400, error));
+
+      userActions
+        .editUser(req)
+        .then(user => {
+          if (user) {
+            resolve(
+              createResponse(
+                200, `Usuário ${user.name} alterado com sucesso`
+              )
+            )
+          }
+          else {
+            resolve(createResponse(404, 'usuário não encontrado'))
+          }
+        })
+    })
+  },
+  deleteUser(id) {
+    return new Promise(async (resolve, reject) => {
+      const schema = Joi.object({
+        id: Joi.string().required()
+      });
+
+      const { error } = schema.validate({ id });
+      if (error) return reject(createResponse(400, error));
+
+      userActions
+        .deleteUser(id)
+        .then(user => {
+          if (user) {
+            resolve(
+              createResponse(
+                200, `Usuário ${user.name} deletado com sucesso`
+              )
+            )
+          }
+          else {
+            resolve(createResponse(404, 'usuário não encontrado'))
+          }
+        })
+    })
   }
 };
 
