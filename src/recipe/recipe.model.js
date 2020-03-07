@@ -55,4 +55,4 @@ const schema = mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('Recipe', schema, 'users')
+module.exports = mongoose.model('Recipe', schema, 'recipes')

@@ -14,7 +14,7 @@ const recipeActions = {
         return new Promise((resolve, reject) => {
             const limit = parseInt(data.limit) || 10;
             const offset = data.offset || 0;
-            Recipe.find().limit(limit).skip(limit * offset).then(res => {
+            Recipe.find().limit(limit).skip(limit * offset).populate('user').then(res => {
                 return resolve(formatResponse(res, { limit, offset }))
             }).catch(err => {
                 return reject(err)
