@@ -20,13 +20,13 @@ const schema = mongoose.Schema({
         type: String
     },
     user: {
-        type: mongoose.objectId,
+        type: mongoose.ObjectId,
         ref: 'User',
         required: true
     },
     likes: [
         {
-            type: mongoose.objectId,
+            type: mongoose.ObjectId,
             ref: 'User'
         }
     ],
@@ -36,7 +36,7 @@ const schema = mongoose.Schema({
                 type: String
             },
             user: {
-                type: mongoose.objectId,
+                type: mongoose.ObjectId,
                 ref: 'User'
             }
         }
