@@ -20,6 +20,15 @@ const recipeActions = {
                 return reject(err)
             })
         })
+    },
+    findOne(id) {
+        return new Promise((resolve, reject) => {
+            Recipe.findById(id).then(recipe => {
+                return resolve(recipe)
+            }).catch(err => {
+                return reject(err)
+            })
+        })
     }
 }
 

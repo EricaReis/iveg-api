@@ -38,6 +38,18 @@ const recipeController = {
                 .then(response => resolve(createResponse(200, response)))
                 .catch(error => reject(createResponse(500, error)))
         })
+    },
+    findOne(id) {
+        return new Promise(async (resolve, reject) => {
+            const schema = Joi.object({
+                id: Joi.string().required()
+            });
+            const { error } = schema.validate({ id });
+            if (error) return reject(createResponse(400, error));
+            recipeActions.findOne(id)
+                .then(user => resolve(createResponse(200, recipe)))
+                .catch(error => reject(createResponse(400, error)))
+        })
     }
 
 
