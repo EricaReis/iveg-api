@@ -47,7 +47,7 @@ const recipeController = {
             const { error } = schema.validate({ id });
             if (error) return reject(createResponse(400, error));
             recipeActions.findOne(id)
-                .then(user => resolve(createResponse(200, recipe)))
+                .then(recipe => resolve(createResponse(200, recipe)))
                 .catch(error => reject(createResponse(400, error)))
         })
     }

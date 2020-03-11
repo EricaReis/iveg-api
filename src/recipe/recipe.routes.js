@@ -38,7 +38,10 @@ recipeRoutes.get('/recipe/:id', async (req, res, next) => {
             return error;
         })
     res.status(response.statusCode).send(response.result);
+    next();
 })
+
+
 
 
 module.exports = recipeRoutes;
