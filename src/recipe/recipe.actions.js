@@ -29,6 +29,24 @@ const recipeActions = {
                 return reject(err)
             })
         })
+    },
+    editRecipe(req) {
+        return new Promise((resolve, reject) => {
+            Recipe.findByIdAndUpdate(req.params.id, req.body).then(recipe => {
+                return resolve(recipe)
+            }).catch(err => {
+                return reject(err)
+            })
+        })
+    },
+    deleteRecipe(id) {
+        return new Promise((resolve, reject) => {
+            Recipe.findByIdAndDelete(id).then(recipe => {
+                return resolve(recipe)
+            }).catch(err => {
+                return reject(err)
+            })
+        })
     }
 }
 

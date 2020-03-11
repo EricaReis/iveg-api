@@ -50,9 +50,67 @@ const recipeController = {
                 .then(recipe => resolve(createResponse(200, recipe)))
                 .catch(error => reject(createResponse(400, error)))
         })
+    },
+    editRecipe(req) {
+        return new Promise(async (resolve, reject) => {
+            const schema = Joi.object({
+                id: Joi.object().required(),
+                name: Joi.string(),
+                how_to_do: Joi.string(),
+                amount: Joi.number(),
+                url_img: Joi.string(),
+                url_video: Joi.string(),
+                user: Joi.string()
+            });
+            const { error } = schema.validate({ ...req.params, ...req.body });
+            if (error) return reject(createResponse(400, error));
+
+            userActions
+                .editRecipe(req)
+                .then(recipe => {
+                    if (recipe) {
+                        resolve(
+                            createResponse(
+                                200, 'Receita alterada com sucesso'
+                            )
+                        )
+                    }
+                    else {
+                        resolve(createResponse(404, 'Receita não encontrada'))
+                    }
+                })
+        })
+    },
+    deleteRecipe(id) {
+        return new Promise(async (resolve, reject) => {
+            const schema = Joi.object({
+                id: Joi.string().required()
+            });
+
+            const { error } = schema.validate({ id });
+            if (error) return reject(createResponse(400, error));
+
+            recipeActions
+                .deleteRecipe(id)
+                .then(recipe => {
+                    if (recipe) {
+                        resolve(
+                            createResponse(
+                                200, `Receita de ${recipe.name} deletada com sucesso`
+                            )
+                        )
+                    }
+                    else {
+                        resolve(createResponse(404, 'receita não encontrada'))
+                    }
+                })
+
+
+
+        })
+
+
     }
-
-
-}
+};
 
 module.exports = recipeController;

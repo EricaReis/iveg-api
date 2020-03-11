@@ -41,7 +41,30 @@ recipeRoutes.get('/recipe/:id', async (req, res, next) => {
     next();
 })
 
+recipeRoutes.patch('/recipe/:id', async (req, res, next) => {
+    const response = await recipeController
+        .editRecipe(req)
+        .then(answer => {
+            return answer;
+        })
+        .catch(error => {
+            return error;
+        })
+    res.status(response.statusCode).send(response.result);
+})
 
+recipeRoutes.delete('/recipe/:id', async (req, res, next) => {
+    const response = await recipeController
+        .deleteRecipe(req.params.id)
+        .then(answer => {
+            return answer;
+        })
 
+        .catch(error => {
+            return error;
+        })
+    res.status(response.statusCode).send(response.result);
+    next();
+})
 
 module.exports = recipeRoutes;
