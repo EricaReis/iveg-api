@@ -65,7 +65,7 @@ const recipeController = {
             const { error } = schema.validate({ ...req.params, ...req.body });
             if (error) return reject(createResponse(400, error));
 
-            userActions
+            recipeActions
                 .editRecipe(req)
                 .then(recipe => {
                     if (recipe) {
