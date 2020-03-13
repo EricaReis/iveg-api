@@ -7,13 +7,10 @@ const routes = require('./routes');
 const database = require('./config/database');
 const userRoutes = require('./user/user.routes');
 const recipeRoutes = require('./recipe/recipe.routes');
-
-
-const app = express();
+const security = require('./config/security');
 
 database(process.env.DATABASE);
 
-app.use(cors());
 
 class App {
   constructor() {
@@ -24,7 +21,13 @@ class App {
   }
 
   middlewares() {
+    this.app.use(cors(), (req, res, next) => {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+      next();
+    });
     this.app.use(express.json());
+    this.app.use(security);
   }
 
   routes() {
