@@ -6,3 +6,5 @@ tmp/*
 !tmp/.gitkeep
 
 dist
+prefab-poetry-272614-42551753b2ba.json
+.env.debug

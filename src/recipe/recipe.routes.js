@@ -3,68 +3,68 @@ const recipeRoutes = require('express').Router();
 const recipeController = require('./recipe.controller');
 
 recipeRoutes.post('/recipe', async (req, res, next) => {
-    const response = await recipeController
-        .saveRecipe(req.body)
-        .then(answer => {
-            return answer;
-        })
-        .catch(error => {
-            return error;
-        });
-    res.status(response.statusCode).send(response.result);
-    next();
+  const response = await recipeController
+    .saveRecipe(req.body)
+    .then(answer => {
+      return answer;
+    })
+    .catch(error => {
+      return error;
+    });
+  res.status(response.statusCode).send(response.result);
+  next();
 });
 
 recipeRoutes.get('/recipe', async (req, res, next) => {
-    const response = await recipeController
-        .findAll(req.query)
-        .then(answer => {
-            return answer;
-        })
-        .catch(error => {
-            return error;
-        });
-    res.status(response.statusCode).send(response.result);
-    next();
+  const response = await recipeController
+    .findAll(req.query)
+    .then(answer => {
+      return answer;
+    })
+    .catch(error => {
+      return error;
+    });
+  res.status(response.statusCode).send(response.result);
+  next();
 });
 
 recipeRoutes.get('/recipe/:id', async (req, res, next) => {
-    const response = await recipeController
-        .findOne(req.params.id)
-        .then(answer => {
-            return answer;
-        })
-        .catch(error => {
-            return error;
-        })
-    res.status(response.statusCode).send(response.result);
-    next();
-})
+  const response = await recipeController
+    .findOne(req.params.id)
+    .then(answer => {
+      return answer;
+    })
+    .catch(error => {
+      return error;
+    });
+  res.status(response.statusCode).send(response.result);
+  next();
+});
 
 recipeRoutes.patch('/recipe/:id', async (req, res, next) => {
-    const response = await recipeController
-        .editRecipe(req)
-        .then(answer => {
-            return answer;
-        })
-        .catch(error => {
-            return error;
-        })
-    res.status(response.statusCode).send(response.result);
-})
+  const response = await recipeController
+    .editRecipe(req)
+    .then(answer => {
+      return answer;
+    })
+    .catch(error => {
+      return error;
+    });
+  res.status(response.statusCode).send(response.result);
+});
 
 recipeRoutes.delete('/recipe/:id', async (req, res, next) => {
-    const response = await recipeController
-        .deleteRecipe(req.params.id)
-        .then(answer => {
-            return answer;
-        })
+  const response = await recipeController
+    .deleteRecipe(req.params.id)
+    .then(answer => {
+      return answer;
+    })
 
-        .catch(error => {
-            return error;
-        })
-    res.status(response.statusCode).send(response.result);
-    next();
-})
+    .catch(error => {
+      return error;
+    });
+  res.status(response.statusCode).send(response.result);
+  next();
+});
 
 module.exports = recipeRoutes;
