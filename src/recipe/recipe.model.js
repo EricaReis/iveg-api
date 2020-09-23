@@ -19,6 +19,9 @@ const schema = mongoose.Schema({
   url_video: {
     type: String,
   },
+  time: {
+    type: String,
+  },
   user: {
     type: mongoose.ObjectId,
     ref: 'User',
