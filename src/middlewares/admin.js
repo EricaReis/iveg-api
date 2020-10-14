@@ -23,6 +23,6 @@ module.exports = (req, res, next) => {
 
     req.authenticatedUser = { idUser, isAdmin };
 
-    return next();
+    next();
   });
 };

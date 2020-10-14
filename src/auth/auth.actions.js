@@ -1,86 +1,67 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const sendEmailExpireToken = require('../../helper/sendEmailExpireToken');
-
-const { User, Setting } = require('../models');
-const result = require('../../helper/result');
+const User = require('../user/user.model');
 
 const baseUrl = process.env.BASE_URL;
 
 const authActions = {
   async authenticate({ email, password }) {
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ email });
 
-    if (!user) return result(null, 'Usuário não encontrado', 404);
+    if (!user) return 'Usuário não encontrado';
 
     if (!(await bcrypt.compare(password, user.password)))
-      return result(null, 'Senha inválida', 400);
+      return 'Senha inválida';
 
     const secret = process.env.ADMIN_SECRET;
 
-    const token = jwt.sign(
-      { idUser: user.idUser, isAdmin: user.isAdmin },
-      secret,
-      {
-        expiresIn: 86400,
-      }
-    );
+    const token = jwt.sign({ idUser: user.idUser }, secret, {
+      expiresIn: 86400,
+    });
 
     const data = {
       token,
-      isAdmin: user.isAdmin,
       name: user.name,
-      nuvemShopIdStore: user.nuvemShopIdStore,
-      nuvemShopOriginalDomain: user.nuvemShopOriginalDomain,
     };
 
-    return result(data, null, 200);
+    return data;
   },
   async request({ email }) {
-    const subject = 'Alteração de senha';
-    const text =
-      'Para alterar a sua senha entre no link a seguir e escolha sua nova senha. ';
+    const user = await User.findOne({ email });
 
-    const user = await User.findOne({ where: { email } });
+    if (!user) return 'Usuário não encontrado';
 
-    if (!user) return result(null, 'Usuário não encontrado', 404);
-
-    const urlBase = `${baseUrl}/reset-password`;
-
-    await sendEmailExpireToken(email, subject, text, urlBase);
-
-    return result(null, 'email enviado', 200);
+    return 'email enviado';
   },
   async reset({ email, token, password }) {
     const now = new Date();
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ email });
 
-    if (!user) return result(null, 'Usuário não encontrado', 404);
+    if (!user) return 'Usuário não encontrado';
 
-    if (user.forgotToken !== token) return result(null, 'Token inválido', 400);
+    if (user.forgotToken !== token) return 'Token inválido';
 
-    if (now > user.expiresToken)
-      return result(null, 'Token expirado, gere novamente', 400);
+    if (now > user.expiresToken) return 'Token expirado, gere novamente';
 
     user.password = password;
     await user.save();
 
-    return result(null, 'Senha alterada com sucesso', 200);
+    return 'Senha alterada com sucesso';
   },
-  async change({ oldPassword, newPassword, authenticatedUser }) {
+  async change(teste) {
     const { idUser } = authenticatedUser;
 
-    const user = await User.findOne({ where: { idUser } });
+    const user = await User.findById(idUser);
 
     if (!(await bcrypt.compare(oldPassword, user.password)))
-      return result(null, 'Senha inválida', 400);
+      return 'Senha inválida';
 
     user.password = newPassword;
     await user.save();
 
-    return result(null, 'Senha alterada com sucesso', 200);
+    return 'Senha alterada com sucesso';
   },
 };
 

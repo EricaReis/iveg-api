@@ -11,7 +11,7 @@ const userRoutes = require('./user/user.routes');
 const recipeRoutes = require('./recipe/recipe.routes');
 const pictureRoutes = require('./profilePicture/picture.routes');
 const recipePictureRoutes = require('./recipePicture/picture.routes');
-const security = require('./config/security');
+const authRoutes = require('./auth/auth.routes');
 
 database(process.env.DATABASE);
 
@@ -34,7 +34,6 @@ class App {
     this.app.use(multerMid.single('file'));
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
-    this.app.use(security);
   }
 
   routes() {
@@ -43,6 +42,7 @@ class App {
     this.app.use(recipeRoutes);
     this.app.use(pictureRoutes);
     this.app.use(recipePictureRoutes);
+    this.app.use(authRoutes);
   }
 }
 

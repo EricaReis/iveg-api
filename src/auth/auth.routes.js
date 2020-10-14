@@ -64,7 +64,7 @@ routes.post(
   throttle(configThrottle),
   async (req, res, next) => {
     const response = await authController
-      .change(req.body)
+      .change(req)
       .then(answer => {
         return answer;
       })

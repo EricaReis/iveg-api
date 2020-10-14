@@ -1,8 +1,9 @@
 const recipeRoutes = require('express').Router();
+const security = require('../config/security');
 
 const recipeController = require('./recipe.controller');
 
-recipeRoutes.post('/recipe', async (req, res, next) => {
+recipeRoutes.post('/recipe', security, async (req, res, next) => {
   const response = await recipeController
     .saveRecipe(req.body)
     .then(answer => {

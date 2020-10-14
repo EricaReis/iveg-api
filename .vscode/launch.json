@@ -10,7 +10,7 @@
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/src/server.js",
-      "envFile": "${workspaceFolder}/.env.debug"
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }

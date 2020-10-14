@@ -4,7 +4,7 @@ const Joi = require('@hapi/joi');
 const authActions = require('./auth.actions');
 const createResponse = require('../common/createResponse');
 
-const recipeController = {
+const authController = {
   authenticate(data) {
     return new Promise(async (resolve, reject) => {
       const schema = Joi.object({
@@ -79,15 +79,15 @@ const recipeController = {
       const { error } = schema.validate({ ...req.params, ...req.body });
       if (error) return reject(createResponse(400, error));
 
-      authActions.editRecipe(req).then(recipe => {
-        if (recipe) {
-          resolve(createResponse(200, 'Receita alterada com sucesso'));
+      authActions.change(req).then(res => {
+        if (res) {
+          resolve(createResponse(200, 'Senha alterada com sucesso'));
         } else {
-          resolve(createResponse(404, 'Receita não encontrada'));
+          resolve(createResponse(404, 'Senha não encontrada'));
         }
       });
     });
   },
 };
 
-module.exports = recipeController;
+module.exports = authController;
