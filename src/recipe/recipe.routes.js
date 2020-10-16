@@ -16,7 +16,7 @@ recipeRoutes.post('/recipe', security, async (req, res, next) => {
   next();
 });
 
-recipeRoutes.get('/recipe', async (req, res, next) => {
+recipeRoutes.get('/recipe', security, async (req, res, next) => {
   const response = await recipeController
     .findAll(req.query)
     .then(answer => {
@@ -29,7 +29,7 @@ recipeRoutes.get('/recipe', async (req, res, next) => {
   next();
 });
 
-recipeRoutes.get('/recipe/:id', async (req, res, next) => {
+recipeRoutes.get('/recipe/:id', security, async (req, res, next) => {
   const response = await recipeController
     .findOne(req.params.id)
     .then(answer => {
@@ -42,7 +42,7 @@ recipeRoutes.get('/recipe/:id', async (req, res, next) => {
   next();
 });
 
-recipeRoutes.patch('/recipe/:id', async (req, res, next) => {
+recipeRoutes.patch('/recipe/:id', security, async (req, res, next) => {
   const response = await recipeController
     .editRecipe(req)
     .then(answer => {
@@ -54,7 +54,7 @@ recipeRoutes.patch('/recipe/:id', async (req, res, next) => {
   res.status(response.statusCode).send(response.result);
 });
 
-recipeRoutes.delete('/recipe/:id', async (req, res, next) => {
+recipeRoutes.delete('/recipe/:id', security, async (req, res, next) => {
   const response = await recipeController
     .deleteRecipe(req.params.id)
     .then(answer => {

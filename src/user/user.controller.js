@@ -12,7 +12,10 @@ const userController = {
         url_img: Joi.string(),
         password: Joi.string(),
         email: Joi.string()
-          .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+          .email({
+            minDomainSegments: 2,
+            tlds: { allow: ['com', 'net', 'br'] },
+          })
           .required(),
       });
 

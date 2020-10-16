@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-const storage = require('../configStorage/');
+const storage = require('../configStorage');
 
 function uploadFile(file) {
   return new Promise((resolve, reject) => {
@@ -18,8 +18,8 @@ function uploadFile(file) {
         const publicUrl = `https://storage.googleapis.com/iveg/${fileName}`;
         resolve(publicUrl);
       })
-      .on('error', () => {
-        const error = 'Erro ao subir a imagem';
+      .on('error', error => {
+        // const error = 'Erro ao subir a imagem';
         reject(error);
       })
       .end(buffer);

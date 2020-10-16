@@ -6,7 +6,7 @@ const multerMid = multer({
     fileSize: 5 * 1024 * 1024,
   },
   fileFilter: (req, file, cb) => {
-    const allowedMimes = ['image/jpeg', 'image/pjeg', 'image/png'];
+    const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png'];
 
     if (allowedMimes.includes(file.mimetype)) {
       cb(null, true);

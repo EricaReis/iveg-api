@@ -3,20 +3,18 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../user/user.model');
 
-const baseUrl = process.env.BASE_URL;
-
 const authActions = {
   async authenticate({ email, password }) {
     const user = await User.findOne({ email });
 
-    if (!user) return 'Usuário não encontrado';
+    if (!user) return { status: 404, message: 'Usuário não encontrado' };
 
     if (!(await bcrypt.compare(password, user.password)))
-      return 'Senha inválida';
+      return { status: 401, message: 'Senha inválida' };
 
     const secret = process.env.ADMIN_SECRET;
 
-    const token = jwt.sign({ idUser: user.idUser }, secret, {
+    const token = jwt.sign({ idUser: user._id }, secret, {
       expiresIn: 86400,
     });
 
@@ -25,43 +23,26 @@ const authActions = {
       name: user.name,
     };
 
-    return data;
+    console.log('Someone Log');
+    return { status: 200, message: data };
   },
-  async request({ email }) {
-    const user = await User.findOne({ email });
-
-    if (!user) return 'Usuário não encontrado';
-
-    return 'email enviado';
-  },
-  async reset({ email, token, password }) {
-    const now = new Date();
-
-    const user = await User.findOne({ email });
-
-    if (!user) return 'Usuário não encontrado';
-
-    if (user.forgotToken !== token) return 'Token inválido';
-
-    if (now > user.expiresToken) return 'Token expirado, gere novamente';
-
-    user.password = password;
-    await user.save();
-
-    return 'Senha alterada com sucesso';
-  },
-  async change(teste) {
+  async change({ authenticatedUser, body }) {
+    const { oldPassword, newPassword } = body;
     const { idUser } = authenticatedUser;
 
     const user = await User.findById(idUser);
 
     if (!(await bcrypt.compare(oldPassword, user.password)))
-      return 'Senha inválida';
+      return { status: 401, message: 'Senha inválida' };
 
     user.password = newPassword;
-    await user.save();
+    try {
+      await user.save();
 
-    return 'Senha alterada com sucesso';
+      return { status: 200, message: 'Senha alterada com sucesso' };
+    } catch (error) {
+      return { status: 500, message: 'Erro ao salvar a nova senha' };
+    }
   },
 };
 

@@ -1,14 +1,28 @@
 const jwt = require('jsonwebtoken');
 
+const secret = process.env.ADMIN_SECRET;
+
 module.exports = (req, res, next) => {
-  if (req.originalUrl === '/ping') {
+  const { authorization } = req.headers;
+
+  if (!authorization) return res.status(401).send('O token não foi enviado');
+
+  const parts = authorization.split(' ');
+
+  if (!parts.length === 2) return res.status(401).send('Token inválido');
+
+  const [scheme, token] = parts;
+
+  if (!/^Bearer$/i.test(scheme))
+    return res.status(401).send('Token mal-formado');
+
+  jwt.verify(token, secret, (err, decoded) => {
+    if (err) return res.status(401).send('Token inválido');
+
+    const { idUser, isAdmin } = decoded;
+
+    req.authenticatedUser = { idUser, isAdmin };
+
     next();
-  } else {
-    try {
-      jwt.verify(req.headers.authorization, process.env.API_SECRET);
-      next();
-    } catch (error) {
-      return res.status(401).send('Unauthorized');
-    }
-  }
+  });
 };

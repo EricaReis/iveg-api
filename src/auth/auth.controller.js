@@ -19,50 +19,10 @@ const authController = {
 
       authActions
         .authenticate(data)
-        .then(response => resolve(createResponse(200, response)))
+        .then(response =>
+          resolve(createResponse(response.status, response.message))
+        )
         .catch(error => reject(createResponse(500, error)));
-    });
-  },
-  request(data) {
-    return new Promise(async (resolve, reject) => {
-      const schema = Joi.object({
-        email: Joi.string()
-          .email({
-            minDomainSegments: 2,
-            tlds: { allow: ['com', 'net', 'br'] },
-          })
-          .max(100)
-          .required(),
-      });
-
-      const { error } = await schema.validate(data);
-      if (error) return reject(createResponse(400, error));
-
-      authActions
-        .request(data)
-        .then(response => resolve(createResponse(200, response)))
-        .catch(err => reject(createResponse(500, err)));
-    });
-  },
-  reset(email) {
-    return new Promise(async (resolve, reject) => {
-      const schema = Joi.object({
-        email: Joi.string()
-          .email({
-            minDomainSegments: 2,
-            tlds: { allow: ['com', 'net', 'br'] },
-          })
-          .max(100)
-          .required(),
-      });
-
-      const { error } = schema.validate({ email });
-      if (error) return reject(createResponse(400, error));
-
-      authActions
-        .reset(email)
-        .then(recipe => resolve(createResponse(200, recipe)))
-        .catch(err => reject(createResponse(400, err)));
     });
   },
   change(req) {
@@ -80,11 +40,7 @@ const authController = {
       if (error) return reject(createResponse(400, error));
 
       authActions.change(req).then(res => {
-        if (res) {
-          resolve(createResponse(200, 'Senha alterada com sucesso'));
-        } else {
-          resolve(createResponse(404, 'Senha não encontrada'));
-        }
+        resolve(createResponse(res.status, res.message));
       });
     });
   },

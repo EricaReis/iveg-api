@@ -20,6 +20,7 @@ const recipeActions = {
         .limit(limit)
         .skip(limit * offset)
         .populate('user')
+        .sort({ createdAt: -1 })
         .then(res => {
           return resolve(formatResponse(res, { limit, offset }));
         })
