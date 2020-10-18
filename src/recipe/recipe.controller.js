@@ -41,6 +41,7 @@ const recipeController = {
         offset: Joi.number()
           .integer()
           .min(0),
+        search: Joi.string()
       });
       const { error } = await schema.validate(data);
       if (error) return reject(createResponse(400, error));

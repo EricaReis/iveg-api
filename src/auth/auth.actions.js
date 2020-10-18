@@ -23,7 +23,6 @@ const authActions = {
       name: user.name,
     };
 
-    console.log('Someone Log');
     return { status: 200, message: data };
   },
   async change({ authenticatedUser, body }) {

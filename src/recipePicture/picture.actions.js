@@ -7,7 +7,7 @@ const pictureActions = {
     return new Promise((resolve, reject) => {
       uploadImage(req.file)
         .then(async response => {
-          const { id } = req.body;
+          const { id } = req.headers;
           try {
             await Recipe.findByIdAndUpdate(id, { url_img: response });
             resolve('Imagem adicionada com sucesso');

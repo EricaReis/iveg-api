@@ -16,7 +16,9 @@ const recipeActions = {
     return new Promise((resolve, reject) => {
       const limit = parseInt(data.limit) || 10;
       const offset = data.offset || 0;
-      Recipe.find()
+      Recipe.find({
+        name: new RegExp(data.search, 'i'),
+      })
         .limit(limit)
         .skip(limit * offset)
         .populate('user')

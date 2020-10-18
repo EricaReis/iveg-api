@@ -12,6 +12,7 @@ const recipeRoutes = require('./recipe/recipe.routes');
 const pictureRoutes = require('./profilePicture/picture.routes');
 const recipePictureRoutes = require('./recipePicture/picture.routes');
 const authRoutes = require('./auth/auth.routes');
+const favoriteRoutes = require('./favorite/favorite.routes')
 
 database(process.env.DATABASE);
 
@@ -43,6 +44,7 @@ class App {
     this.app.use(pictureRoutes);
     this.app.use(recipePictureRoutes);
     this.app.use(authRoutes);
+    this.app.use(favoriteRoutes);
   }
 }
 

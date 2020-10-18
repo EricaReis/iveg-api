@@ -7,7 +7,7 @@ const createResponse = require('../common/createResponse');
 const recipePictureController = {
   uploadImage(req) {
     return new Promise(async (resolve, reject) => {
-      const { id } = req.body;
+      const { id } = req.headers;
       const schema = Joi.object({
         id: Joi.string().required(),
       });
