@@ -41,7 +41,7 @@ const recipeController = {
         offset: Joi.number()
           .integer()
           .min(0),
-        search: Joi.string()
+        search: Joi.string(),
       });
       const { error } = await schema.validate(data);
       if (error) return reject(createResponse(400, error));
@@ -68,13 +68,19 @@ const recipeController = {
   editRecipe(req) {
     return new Promise(async (resolve, reject) => {
       const schema = Joi.object({
-        id: Joi.object().required(),
+        id: Joi.string().required(),
         name: Joi.string(),
         how_to_do: Joi.string(),
         amount: Joi.number(),
         url_img: Joi.string(),
         url_video: Joi.string(),
         user: Joi.string(),
+        ingredient: Joi.array().items(
+          Joi.object({
+            name: Joi.string().required(),
+            quantity: Joi.string().required(),
+          })
+        ),
       });
       const { error } = schema.validate({ ...req.params, ...req.body });
       if (error) return reject(createResponse(400, error));
