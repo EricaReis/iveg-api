@@ -21,6 +21,7 @@ const authActions = {
     const data = {
       token,
       name: user.name,
+      _id: user._id,
     };
 
     return { status: 200, message: data };

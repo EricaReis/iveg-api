@@ -34,7 +34,9 @@ const recipeActions = {
   findOne(id) {
     return new Promise((resolve, reject) => {
       Recipe.findById(id)
+        .populate('comment.user')
         .then(recipe => {
+          recipe.comment.reverse();
           return resolve(recipe);
         })
         .catch(err => {

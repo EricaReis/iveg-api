@@ -68,4 +68,17 @@ userRoutes.delete('/user/:id', security, async (req, res, next) => {
   next();
 });
 
+userRoutes.get('/self/user', security, async (req, res, next) => {
+  const response = await userController
+    .findByToken(req)
+    .then(answer => {
+      return answer;
+    })
+    .catch(error => {
+      return error;
+    });
+  res.status(response.statusCode).send(response.result);
+  next();
+});
+
 module.exports = userRoutes;

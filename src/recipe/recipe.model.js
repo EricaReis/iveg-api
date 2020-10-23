@@ -20,6 +20,10 @@ const schema = mongoose.Schema(
     url_video: {
       type: String,
     },
+    time: {
+      type: Number,
+      required: true,
+    },
     user: {
       type: mongoose.ObjectId,
       ref: 'User',

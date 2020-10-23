@@ -110,6 +110,17 @@ const userController = {
       });
     });
   },
+  findByToken(req) {
+    return new Promise(async (resolve, reject) => {
+      userActions.findByToken(req).then(user => {
+        if (user) {
+          resolve(createResponse(200, user));
+        } else {
+          resolve(createResponse(404, 'usuário não encontrado'));
+        }
+      });
+    });
+  },
 };
 
 module.exports = userController;

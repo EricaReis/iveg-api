@@ -20,7 +20,7 @@ const commentsController = {
       idComment: Joi.string().required(),
     });
 
-    const { error } = await schema.validate(req.body);
+    const { error } = await schema.validate(req.params);
     if (error) return res.status(400).send(error);
 
     commentsActions.deleteComment({ req, res });

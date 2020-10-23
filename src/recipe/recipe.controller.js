@@ -14,6 +14,9 @@ const recipeController = {
         url_img: Joi.string(),
         url_video: Joi.string(),
         user: Joi.string().required(),
+        time: Joi.number()
+          .integer()
+          .required(),
         ingredient: Joi.array().items(
           Joi.object({
             name: Joi.string().required(),
@@ -75,6 +78,9 @@ const recipeController = {
         url_img: Joi.string(),
         url_video: Joi.string(),
         user: Joi.string(),
+        time: Joi.number()
+          .integer()
+          .required(),
         ingredient: Joi.array().items(
           Joi.object({
             name: Joi.string().required(),

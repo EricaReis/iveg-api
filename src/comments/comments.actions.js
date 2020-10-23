@@ -23,7 +23,7 @@ const commentsActions = {
   },
   async deleteComment({ req, res }) {
     const { idUser } = req.authenticatedUser;
-    const { idRecipe, idComment } = req.body;
+    const { idRecipe, idComment } = req.params;
 
     const recipe = await Recipe.findById(idRecipe);
 
