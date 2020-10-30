@@ -15,7 +15,7 @@ const authController = {
       });
 
       const { error } = await schema.validate(data);
-      if (error) return reject(createResponse(400, error));
+      if (error) return reject(createResponse(400, "Algum dado está incorreto"));
 
       authActions
         .authenticate(data)

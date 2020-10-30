@@ -5,6 +5,7 @@ const User = require('../user/user.model');
 const pictureActions = {
   uploadFile(req) {
     return new Promise((resolve, reject) => {
+      console.log(req.file);
       uploadImage(req.file)
         .then(async response => {
           const { id } = req.headers;

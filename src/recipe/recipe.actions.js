@@ -4,8 +4,8 @@ const recipeActions = {
   saveRecipe(data) {
     return new Promise((resolve, reject) => {
       Recipe.create(data)
-        .then(() => {
-          return resolve('Receita cadastrada com sucesso!');
+        .then((res) => {
+          return resolve(res);
         })
         .catch(err => {
           return reject(err);
